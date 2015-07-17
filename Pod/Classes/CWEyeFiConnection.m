@@ -252,6 +252,15 @@
             // remove tar extension
             NSString *imagePath = [_storeFilePath stringByDeletingPathExtension];
             
+            // remove tar file
+            NSError *error;
+            if ([[NSFileManager defaultManager] isDeletableFileAtPath:_storeFilePath]) {
+                BOOL success = [[NSFileManager defaultManager] removeItemAtPath:_storeFilePath error:&error];
+                if (!success) {
+                    NSLog(@"Error removing file at path: %@", error.localizedDescription);
+                }
+            }
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:CWNotificationFileStatus
                                                                 object:self
                                                               userInfo:@{
